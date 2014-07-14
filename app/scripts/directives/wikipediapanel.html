@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-repeat="page in pages">
     <div class="panel-body">
         <div class="wikipedia-panel-image col-md-3" ng-show="page.thumbnail">
             <img src="{{page.thumbnail.source}} " class="img-responsive">
@@ -9,14 +9,14 @@
                     <h1 style="margin-top:0">{{page.title}}</h1>
                 </div>
                 <div class="col-sm-12" ng-show="!page.pageid">Not Found</div>
-                <div class="wikipedia-panel-body col-sm-12" ng-show="page.pageid"></div>
+                <div class="wikipedia-panel-body col-sm-12" ng-show="page.pageid" ng-bind-html="page.extract"></div>
                 <div class="col-xs-12" ng-show="page.pageid">
                     <a href="http://{{page.pagelanguage}}.wikipedia.org/wiki?curid={{page.pageid}}" target="_blank">{{page.title}}</a>
                     <a ng-show="page.langlinks[0]" href="http://{{page.langlinks[0].lang}}.wikipedia.org/wiki/{{page.langlinks[0].*}}" target="_blank">{{page.langlinks[0].*}}</a>
                 </div>
-                <div class="col-xs-12" ng-show="pages">
+                <div class="col-xs-12" ng-show="altPpages">
                     <ul>
-                    <li ng-repeat="p in pages">
+                    <li ng-repeat="p in altPpages">
                         <a href="http://{{page.pagelanguage}}.wikipedia.org/wiki?curid={{p.pageid}}" target="_blank">{{p.title}}</a>
                     </li>
                 </ul>

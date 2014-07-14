@@ -14,17 +14,20 @@ angular.module('myAngularjsAppApp')
             scope: true,
             link: function postLink(scope, element, attrs) {
                 var qLang = attrs.lang || 'en';
-                var WikipediaPanelQuery = $resource('http://localhost:9010/stillclimbing/rest/wikipediaPage?lang=' + qLang + '&title=' + attrs.title);
+                var WikipediaPanelQuery = $resource('http://localhost:9010/stillclimbing/rest/wikipediaPage?lang=' + qLang + '&titles=' + attrs.titles);
                 WikipediaPanelQuery.get(function(result) {
+                    scope.pages = result.query.pages;
+                    var firstPage;
                     angular.forEach(result.query.pages, function(page, key) {
-                        scope.page = page;
-                        element.find(".wikipedia-panel-body").html(page.extract);
+                        firstPage = page;
                         return false;
+                        //element.find(".wikipedia-panel-body").html(page.extract);
+                        //return false;
                     });
-                    if (!scope.page.pageid) { //if no result is found, try search
-                        var WikipediaPanelSearch = $resource('http://localhost:9010/stillclimbing/rest/wikipediaSearch?lang=' + qLang + '&title=' + attrs.title);
+                    if (!firstPage.pageid) { //if no result is found, try search
+                        var WikipediaPanelSearch = $resource('http://localhost:9010/stillclimbing/rest/wikipediaSearch?lang=' + qLang + '&titles' + attrs.titles);
                         WikipediaPanelSearch.get(function(result) {
-                            scope.pages = result.query.pages;
+                            scope.altPages = result.query.pages;
                         });
 
                     }
